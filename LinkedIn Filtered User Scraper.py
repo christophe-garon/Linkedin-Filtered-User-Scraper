@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[28]:
+# In[1]:
 
 
 #required installs (i.e. pip3 install in terminal): pandas, selenium, bs4, and possibly chromedriver(it may come with selenium)
@@ -57,7 +57,7 @@ except:
         f.close()
 
 
-# In[29]:
+# In[2]:
 
 
 #Get any existing scraped data
@@ -94,7 +94,7 @@ except:
     follow_rate = []
 
 
-# In[30]:
+# In[3]:
 
 
 #access Webriver
@@ -113,7 +113,7 @@ elementID.send_keys(password)
 elementID.submit()
 
 
-# In[31]:
+# In[4]:
 
 
 # #Go to webpage
@@ -949,7 +949,7 @@ def scrape_activity():
         return
 
 
-# In[33]:
+# In[23]:
 
 
 
@@ -958,19 +958,22 @@ def scrape_users(links):
     for link in links:
 
         try:
+            print("Clicking user")
             ActionChains(browser).key_down(Keys.SHIFT).key_down(Keys.COMMAND).click(link).key_up(Keys.SHIFT).key_up(Keys.COMMAND).perform()
             time.sleep(1)
             try:
                 browser.switch_to.window(browser.window_handles[1])
             except:
-                browser.back()
                 time.sleep(1)
-                button_path = 'fr artdeco-button artdeco-button--2 artdeco-button--primary ember-view'
-                browser.find_element_by_xpath("//button[@class='{}']".format(button_path)).click()
-                time.sleep(1)
+                try:
+                    button_path = 'fr artdeco-button artdeco-button--2 artdeco-button--primary ember-view'
+                    browser.find_element_by_xpath("//button[@class='{}']".format(button_path)).click()
+                    time.sleep(1)
+                except:
+                    browser.back()
+                    time.sleep(1)
                 continue
-                #ActionChains(browser).key_down(Keys.SHIFT).key_down(Keys.COMMAND).click(link).key_up(Keys.SHIFT).key_up(Keys.COMMAND).perform()
-                #browser.switch_to.window(browser.window_handles[1])
+        
         
             time.sleep(2)
 
@@ -1010,7 +1013,7 @@ def scrape_users(links):
         
 
 
-# In[34]:
+# In[24]:
 
 
 def get_user_links():
@@ -1024,7 +1027,7 @@ def get_user_links():
     return links
 
 
-# In[35]:
+# In[25]:
 
 
 def current_time():
@@ -1032,7 +1035,7 @@ def current_time():
     return current_time
 
 
-# In[36]:
+# In[26]:
 
 
 def main():
@@ -1076,7 +1079,7 @@ def main():
         
 
 
-# In[37]:
+# In[27]:
 
 
 browser.switch_to.window(browser.window_handles[0])
