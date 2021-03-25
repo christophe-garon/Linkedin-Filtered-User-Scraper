@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[28]:
 
 
 #required installs (i.e. pip3 install in terminal): pandas, selenium, bs4, and possibly chromedriver(it may come with selenium)
@@ -31,7 +31,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 caffeine.on(display=True)
 
 page_url = input("Enter the Company Linkedin URL: ")
-company_name = "Project_Name"
+company_name = "cardiologists"
 
 try:
     f= open("{}/{}_credentials.txt".format(company_name,company_name),"r")
@@ -52,12 +52,12 @@ except:
         f= open("{}/{}_credentials.txt".format(company_name,company_name),"w+")
         username = input('Enter your linkedin username: ')
         password = input('Enter your linkedin password: ')
-        page = 0
+        page = 1
         f.write("username={}, password={}, page_index={}, page_url={}".format(username,password,page,page_url))
         f.close()
 
 
-# In[2]:
+# In[29]:
 
 
 #Get any existing scraped data
@@ -94,7 +94,7 @@ except:
     follow_rate = []
 
 
-# In[3]:
+# In[30]:
 
 
 #access Webriver
@@ -113,11 +113,11 @@ elementID.send_keys(password)
 elementID.submit()
 
 
-# In[4]:
+# In[31]:
 
 
 # #Go to webpage
-browser.get(page_url)
+browser.get(page_url +"&page={}".format(page))
 
 
 # In[5]:
@@ -861,7 +861,7 @@ def export_df():
 
         #Create/Update Excel file
         writer = pd.ExcelWriter("{}/{}_linkedin.xlsx".format(company_name,company_name), engine='xlsxwriter')
-        df.to_excel(writer, sheet_name='Group Members', index=False)
+        df.to_excel(writer, sheet_name='Users', index=False)
         common_companies.to_excel(writer, sheet_name='Company Interest', index=False)
         common_influencers.to_excel(writer, sheet_name='Influencer Interest', index=False)
         age_stats.to_excel(writer, sheet_name='Demographic Stats', index=True)
@@ -949,7 +949,7 @@ def scrape_activity():
         return
 
 
-# In[23]:
+# In[33]:
 
 
 
@@ -965,8 +965,12 @@ def scrape_users(links):
             except:
                 browser.back()
                 time.sleep(1)
-                ActionChains(browser).key_down(Keys.SHIFT).key_down(Keys.COMMAND).click(link).key_up(Keys.SHIFT).key_up(Keys.COMMAND).perform()
-                browser.switch_to.window(browser.window_handles[1])
+                button_path = 'fr artdeco-button artdeco-button--2 artdeco-button--primary ember-view'
+                browser.find_element_by_xpath("//button[@class='{}']".format(button_path)).click()
+                time.sleep(1)
+                continue
+                #ActionChains(browser).key_down(Keys.SHIFT).key_down(Keys.COMMAND).click(link).key_up(Keys.SHIFT).key_up(Keys.COMMAND).perform()
+                #browser.switch_to.window(browser.window_handles[1])
         
             time.sleep(2)
 
@@ -1006,7 +1010,7 @@ def scrape_users(links):
         
 
 
-# In[24]:
+# In[34]:
 
 
 def get_user_links():
@@ -1020,7 +1024,7 @@ def get_user_links():
     return links
 
 
-# In[25]:
+# In[35]:
 
 
 def current_time():
@@ -1028,7 +1032,7 @@ def current_time():
     return current_time
 
 
-# In[26]:
+# In[36]:
 
 
 def main():
@@ -1072,7 +1076,7 @@ def main():
         
 
 
-# In[27]:
+# In[37]:
 
 
 browser.switch_to.window(browser.window_handles[0])
